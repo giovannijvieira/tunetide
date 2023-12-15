@@ -1,0 +1,121 @@
+.tuneFeed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.videoSection {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #111; /* apenas para separar das outras seções */
+}
+
+.controlSection {
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 50%; /* ou o que for necessário */
+    background-color: rgba(0,0,0,0.5); /* para dar um efeito semi-transparente */
+}
+
+/* Aqui você pode estilizar os ícones individualmente, se necessário */
+.userProfileIcon, .likeIcon, .commentIcon, .shareIcon, .musicPlayerIcon {
+    margin-bottom: 1rem;
+}
+
+.videoInfo {
+    margin-top: 1rem;
+    text-align: center;
+    color: #FFF;
+}
+
+.userName {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.videoDescription {
+    margin: 0.5rem 0;
+}
+
+.musicInfo {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.tuneFeed {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  
+  .videoSection {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #111; /* apenas para separar das outras seções */
+    /* Defina as dimensões desejadas para os vídeos aqui */
+    width: 100%; /* Defina a largura desejada */
+    height: 100%; /* Defina a altura desejada */
+}
+  
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .tuneFeed {
+    overflow: hidden;
+  }
+  
+  .videoWrapper {
+    height: 100vh;
+    display: none;  /* inicialmente escondemos todos os vídeos */
+  }
+  
+  .videoWrapper.active {
+    display: block;  /* mostramos apenas o vídeo ativo */
+  }
+
+  .overlay {
+    position: relative;
+}
+
+.menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    display: none;
+    transition: opacity 0.3s ease;
+}
+
+.overlay.show .menu {
+    display: block;
+    opacity: 1;
+}
+
+.likeButton {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Outros estilos do menu aqui */

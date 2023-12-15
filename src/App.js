@@ -1,24 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import TuneFeed from './components/TuneFeed/TuneFeed';
+import TuneProfile from './components/TuneProfile/TuneProfile';
+import TuneStudio from './components/TuneStudio/TuneStudio';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<TuneFeed />} />
+        <Route path="/profile" element={<TuneProfile />} />
+        <Route path="/studio" element={<TuneStudio />} />
+        {/* Você pode adicionar mais rotas conforme necessário */}
+      </Routes>
+    </Router>
   );
 }
 

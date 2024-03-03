@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/tunetide/static/css/main.57b0ccc0.css",
-    "main.js": "/tunetide/static/js/main.f9831c81.js",
-    "static/js/453.dfe4eee1.chunk.js": "/tunetide/static/js/453.dfe4eee1.chunk.js",
-    "index.html": "/tunetide/index.html",
-    "main.57b0ccc0.css.map": "/tunetide/static/css/main.57b0ccc0.css.map",
-    "main.f9831c81.js.map": "/tunetide/static/js/main.f9831c81.js.map",
-    "453.dfe4eee1.chunk.js.map": "/tunetide/static/js/453.dfe4eee1.chunk.js.map"
+    "main.css": "./static/css/main.57b0ccc0.css",
+    "main.js": "./static/js/main.ec940ea0.js",
+    "static/js/453.dfe4eee1.chunk.js": "./static/js/453.dfe4eee1.chunk.js",
+    "index.html": "./index.html",
+    "main.57b0ccc0.css.map": "./static/css/main.57b0ccc0.css.map",
+    "main.ec940ea0.js.map": "./static/js/main.ec940ea0.js.map",
+    "453.dfe4eee1.chunk.js.map": "./static/js/453.dfe4eee1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.57b0ccc0.css",
-    "static/js/main.f9831c81.js"
+    "static/js/main.ec940ea0.js"
   ]
 }

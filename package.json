@@ -17,12 +17,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && shx rm -rf docs && shx mv build docs",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build -f"
   },
-  "homepage": ".",
+  "homepage": "https://giovannijvieira.github.io/tunetide",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -40,8 +40,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "shx": "^0.3.4"
   }
 }

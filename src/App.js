@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import TuneFeed from './components/TuneFeed/TuneFeed';
-import TuneProfile from './components/TuneProfile/TuneProfile';
-import TuneStudio from './components/TuneStudio/TuneStudio';
+import  TuneFeed  from './components/TuneFeed/TuneFeed';
+import  TuneProfile  from './components/TuneProfile/TuneProfile';
+import  TuneStudio  from './components/TuneStudio/TuneStudio';
 
 function App() {
   return (

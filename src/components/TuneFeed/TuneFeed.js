@@ -5,25 +5,25 @@ import './TuneFeed.css';
 
 const videoData = [
     {
-      src: "./video1",
+      src: "/video1.mp4",
       user: "@usuario1",
       description: "Descrição do vídeo 1",
       music: "Música 1",
     },
     {
-      src: "./video2.mp4",
+      src: "/video2.mp4",
       user: "@usuario2",
       description: "Descrição do vídeo 2",
       music: "Música 2"
     },
     {
-        src: "./video3.mp4",
+        src: "/video3.mp4",
         user: "@usuario3",
         description: "Descrição do vídeo 3",
         music: "Música 3"
     },
     {
-        src: "./video4.mp4",
+        src: "/video4.mp4",
         user: "@usuario4",
         description: "Descrição do vídeo 4",
         music: "Música 4"

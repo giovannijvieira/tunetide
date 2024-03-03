@@ -29,34 +29,44 @@ const videoData = [
         music: "Música 4"
     },
 ];
-
-function VideoComponent({ video, preload, onVideoEnd, autoPlay }) {
+function VideoComponent({ video, preload, onVideoEnd }) {
   const videoRef = useRef(null);
+  const [hasAttemptedPlay, setHasAttemptedPlay] = useState(false);
 
   useEffect(() => {
-    const videoElement = videoRef.current;
+    // Lidar com o término do vídeo.
     const handleVideoEnd = () => {
       if (onVideoEnd) {
         onVideoEnd();
       }
     };
 
-    if (autoPlay) {
-      videoElement.play().catch(error => console.log("Erro ao tentar reproduzir vídeo automaticamente: ", error));
-    }
-
+    const videoElement = videoRef.current;
     videoElement.addEventListener('ended', handleVideoEnd);
+
+    // Tentar reproduzir o vídeo quando o componente é montado.
+    // Isso é particularmente útil para o primeiro vídeo.
+    if (!hasAttemptedPlay) {
+      videoElement.play().then(() => {
+        setHasAttemptedPlay(true);
+      }).catch(error => {
+        console.error("Erro ao tentar reproduzir vídeo automaticamente:", error);
+        // Se a reprodução automática falhar, pode ser devido às políticas de autoplay do navegador.
+        // Você pode optar por mostrar um botão de play neste ponto ou lidar de outra forma.
+      });
+    }
 
     return () => {
       videoElement.removeEventListener('ended', handleVideoEnd);
     };
-  }, [onVideoEnd, autoPlay]); // Adiciona autoPlay na lista de dependências para reagir às mudanças
+  }, [onVideoEnd]); // Removido autoPlay das dependências, já que o estado é controlado internamente
 
   const handleVisibilityChange = (isVisible) => {
+    const videoElement = videoRef.current;
     if (isVisible) {
-      videoRef.current.play().catch(error => console.log("Erro ao tentar reproduzir vídeo: ", error));
+      videoElement.play().catch(error => console.error("Erro ao tentar reproduzir vídeo:", error));
     } else {
-      videoRef.current.pause();
+      videoElement.pause();
     }
   };
 
@@ -76,6 +86,8 @@ function VideoComponent({ video, preload, onVideoEnd, autoPlay }) {
     </VisibilitySensor>
   );
 }
+
+  
 function TuneFeed() {
   const [videoIndex, setVideoIndex] = useState(0);
   const feedRef = useRef(null);

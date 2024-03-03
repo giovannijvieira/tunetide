@@ -29,12 +29,10 @@ const videoData = [
         music: "Música 4"
     },
 ];
-function VideoComponent({ video, preload, onVideoEnd }) {
+function VideoComponent({ video, preload, onVideoEnd, isFirstVideo }) {
   const videoRef = useRef(null);
-  const [hasAttemptedPlay, setHasAttemptedPlay] = useState(false);
 
   useEffect(() => {
-    // Lidar com o término do vídeo.
     const handleVideoEnd = () => {
       if (onVideoEnd) {
         onVideoEnd();
@@ -44,36 +42,30 @@ function VideoComponent({ video, preload, onVideoEnd }) {
     const videoElement = videoRef.current;
     videoElement.addEventListener('ended', handleVideoEnd);
 
-    // Tentar reproduzir o vídeo quando o componente é montado.
-    // Isso é particularmente útil para o primeiro vídeo.
-    if (!hasAttemptedPlay) {
-      videoElement.play().then(() => {
-        setHasAttemptedPlay(true);
-      }).catch(error => {
-        console.error("Erro ao tentar reproduzir vídeo automaticamente:", error);
-        // Se a reprodução automática falhar, pode ser devido às políticas de autoplay do navegador.
-        // Você pode optar por mostrar um botão de play neste ponto ou lidar de outra forma.
-      });
-    }
+    // Para o primeiro vídeo, não tentaremos reproduzir automaticamente
+    // Isso será controlado pela interação do usuário no componente TuneFeed
 
     return () => {
       videoElement.removeEventListener('ended', handleVideoEnd);
     };
-  }, [onVideoEnd]); // Removido autoPlay das dependências, já que o estado é controlado internamente
+  }, [onVideoEnd]);
 
+  // Essa função foi ajustada para remover a lógica de autoplay automática
   const handleVisibilityChange = (isVisible) => {
-    const videoElement = videoRef.current;
     if (isVisible) {
-      videoElement.play().catch(error => console.error("Erro ao tentar reproduzir vídeo:", error));
+      // Para vídeos que não são o primeiro, tentaremos reproduzir automaticamente
+      if (!isFirstVideo) {
+        videoRef.current.play().catch(error => console.error("Erro ao tentar reproduzir vídeo:", error));
+      }
     } else {
-      videoElement.pause();
+      videoRef.current.pause();
     }
   };
 
   return (
     <VisibilitySensor onChange={handleVisibilityChange} partialVisibility>
       <div className="videoSection">
-        <video ref={videoRef} width="320" height="240" controls preload={preload ? "auto" : "none"}>
+      <video ref={videoRef} width="320" height="240" controls preload={preload ? "auto" : "none"}>
           <source src={video.src} type="video/mp4" />
           Seu navegador não suporta o elemento de vídeo.
         </video>
@@ -86,7 +78,6 @@ function VideoComponent({ video, preload, onVideoEnd }) {
     </VisibilitySensor>
   );
 }
-
   
 function TuneFeed() {
   const [videoIndex, setVideoIndex] = useState(0);

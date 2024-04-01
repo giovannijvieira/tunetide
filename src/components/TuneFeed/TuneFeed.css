@@ -2,20 +2,24 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
-    background-color: #000;
+    background: linear-gradient(45deg, #007bff, #00ff00, #ff00ff,#007bff, #4e6bff, #00ffea, #00ff15, #007bff);
+    background-size: 400% 400%;
+    animation: gradientAnimation 10s ease infinite;
 }
 
-.videoSection {
-    position: relative;
-    flex: 1;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #111; /* apenas para separar das outras seções */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .controlSection {
@@ -25,11 +29,11 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
-    height: 50%; /* ou o que for necessário */
-    background-color: rgba(0,0,0,0.5); /* para dar um efeito semi-transparente */
+    height: 50%;
+    background-color: rgba(0,0,0,0.5); 
 }
 
-/* Aqui você pode estilizar os ícones individualmente, se necessário */
+
 .userProfileIcon, .likeIcon, .commentIcon, .shareIcon, .musicPlayerIcon {
     margin-bottom: 1rem;
 }
@@ -38,7 +42,7 @@
     position: absolute;
     margin-top: 1rem;
     text-align: center;
-    color: #FFF;
+    color: #000000;
 }
 
 .userName {
@@ -52,7 +56,7 @@
 
 .musicInfo {
     font-size: 0.8rem;
-    color: #888;
+    color: #000000;
 }
 
 .tuneFeed {
@@ -61,36 +65,36 @@
     overflow-y: scroll;
     overflow-x: hidden;
   }
-  
   .videoSection {
+    position: relative;
     flex: 1;
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #111; /* apenas para separar das outras seções */
-    /* Defina as dimensões desejadas para os vídeos aqui */
-    width: 100%; /* Defina a largura desejada */
-    height: 100%; /* Defina a altura desejada */
+    background-color: #111; 
+    width: 100%; 
+    height: 100%; 
+    overflow: hidden;
 }
-  
-  video {
+
+video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-  }
-  
+    object-fit: cover; 
+    border-top: none; 
+}
+
   .tuneFeed {
     overflow: hidden;
   }
   
   .videoWrapper {
     height: 100vh;
-    display: none;  /* inicialmente escondemos todos os vídeos */
+    display: none;  
   }
   
   .videoWrapper.active {
-    display: block;  /* mostramos apenas o vídeo ativo */
+    display: block;  
   }
 
   .overlay {
@@ -115,8 +119,79 @@
 .likeButton {
     background: none;
     border: none;
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 24px;
     cursor: pointer;
 }
 
+.custom-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1050;
+    border-radius: 30px; /* Aumentando o raio da borda para tornar o modal mais suave */
+    background-color: #ffffff;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+    padding: 50px;
+  }
+  
+  .custom-modal-header {
+    background-color: #f8f9fa;
+    border-radius: 30px;
+    border-bottom: none;
+  }
+  
+  .custom-modal-title {
+    border-radius: 30px;
+    font-size: 24px;
+    color: #343a40;
+    margin-left: 50px;
+  }
+  
+  .custom-modal-body {
+    border-radius: 30px;
+    padding: 10px;
+  }
+  
+  .custom-modal-text {
+    font-size: 16px;
+    color: #6c757d;
+  }
+  
+  .custom-modal-footer {
+    border-radius: 30px;
+    background-color: #f8f9fa;
+    border-top: none;
+  }
+  
+  .custom-modal-button {
+    background-color: #007bff;
+    border-color: #007bff;
+    font-weight: bold;
+    padding: 10px;
+    float: right;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+  
+  .custom-modal-button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  
+  .custom-modal-button:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+  }
+  
+  .custom-modal-button:not(:disabled):not(.disabled):active {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  
+  .modal-content {
+    outline: none !important;
+    border: none !important;
+  }
+  

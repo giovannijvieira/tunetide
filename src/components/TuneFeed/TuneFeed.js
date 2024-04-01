@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import { useSwipeable } from 'react-swipeable';
+import { Modal, Button } from 'react-bootstrap';
 import './TuneFeed.css';
 
 const videoData = [
@@ -42,18 +43,15 @@ function VideoComponent({ video, preload, onVideoEnd, isFirstVideo }) {
     const videoElement = videoRef.current;
     videoElement.addEventListener('ended', handleVideoEnd);
 
-    // Para o primeiro vídeo, não tentaremos reproduzir automaticamente
-    // Isso será controlado pela interação do usuário no componente TuneFeed
+    
 
     return () => {
       videoElement.removeEventListener('ended', handleVideoEnd);
     };
   }, [onVideoEnd]);
 
-  // Essa função foi ajustada para remover a lógica de autoplay automática
   const handleVisibilityChange = (isVisible) => {
     if (isVisible) {
-      // Para vídeos que não são o primeiro, tentaremos reproduzir automaticamente
       if (!isFirstVideo) {
         videoRef.current.play().catch(error => console.error("Erro ao tentar reproduzir vídeo:", error));
       }
@@ -83,6 +81,16 @@ function TuneFeed() {
   const [videoIndex, setVideoIndex] = useState(0);
   const feedRef = useRef(null);
 
+  const [showModal, setShowModal] = useState(true);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    const firstVideo = feedRef.current.querySelector('video');
+    if (firstVideo) {
+      firstVideo.play().catch(error => console.error("Erro ao tentar reproduzir vídeo:", error));
+    }
+  };
+
   const goToNextVideo = () => setVideoIndex(prevIndex => (prevIndex + 1) % videoData.length);
 
   const handlers = useSwipeable({
@@ -110,14 +118,26 @@ function TuneFeed() {
   }, []);
 
   return (
-      <div className="tuneFeed" {...handlers} ref={feedRef}>
+    <div className="tuneFeed" {...handlers} ref={feedRef}>
+          <Modal show={showModal} centered className="custom-modal">
+          <Modal.Header className="custom-modal-header">
+            <Modal.Title className="custom-modal-title">Bem-vindo ao TuneFeed!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="custom-modal-body">
+            <p className="custom-modal-text">Role o scrool do mouse para descobrir vídeos incríveis!</p>
+          </Modal.Body>
+          <Modal.Footer className="custom-modal-footer">
+            <Button variant="primary" onClick={handleCloseModal} className="custom-modal-button">OK</Button>
+          </Modal.Footer>
+        </Modal>
+
           <h1>TuneFeed - Vídeos recomendados</h1>
 
           {videoData.map((video, index) => (
               index === videoIndex && <VideoComponent key={index} video={video} onVideoEnd={goToNextVideo} />
           ))}
 
-          {/* Pré-carregar o próximo vídeo se não for o último */}
+          {}
           {videoIndex < videoData.length - 1 && 
             <div style={{ display: "none" }}>
               <VideoComponent video={videoData[videoIndex + 1]} preload={true} />

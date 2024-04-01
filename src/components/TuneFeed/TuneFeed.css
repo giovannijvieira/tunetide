@@ -146,7 +146,6 @@ video {
     border-radius: 30px;
     font-size: 24px;
     color: #343a40;
-    margin-left: 50px;
   }
   
   .custom-modal-body {
@@ -195,3 +194,9 @@ video {
     border: none !important;
   }
   
+  @media (max-width: 768px) {
+    .title {
+      font-size: 1.5rem;
+      text-align: center; 
+    }
+  }

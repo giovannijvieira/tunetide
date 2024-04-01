@@ -51,14 +51,20 @@ function VideoComponent({ video, preload, onVideoEnd, isFirstVideo }) {
   }, [onVideoEnd]);
 
   const handleVisibilityChange = (isVisible) => {
-    if (isVisible) {
-      if (!isFirstVideo) {
-        videoRef.current.play().catch(error => console.error("Erro ao tentar reproduzir vídeo:", error));
+  if (isVisible) {
+    if (!isFirstVideo) {
+      const videoElement = videoRef.current;
+      if (videoElement && document.body.contains(videoElement)) {
+        videoElement.play().catch(error => console.error("Erro ao tentar reproduzir vídeo:", error));
       }
-    } else {
-      videoRef.current.pause();
     }
-  };
+  } else {
+    const videoElement = videoRef.current;
+    if (videoElement && !videoElement.paused) {
+      videoElement.pause();
+    }
+  }
+};
 
   return (
     <VisibilitySensor onChange={handleVisibilityChange} partialVisibility>

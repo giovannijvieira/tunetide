@@ -63,7 +63,7 @@ function VideoComponent({ video, preload, onVideoEnd, isFirstVideo }) {
   return (
     <VisibilitySensor onChange={handleVisibilityChange} partialVisibility>
       <div className="videoSection">
-      <video ref={videoRef} width="320" height="240" controls preload={preload ? "auto" : "none"}>
+      <video ref={videoRef} width="320" height="240" controls preload={preload ? "auto" : "none"}muted playsInline>
           <source src={video.src} type="video/mp4" />
           Seu navegador não suporta o elemento de vídeo.
         </video>
@@ -131,7 +131,7 @@ function TuneFeed() {
             <Modal.Title className="custom-modal-title">Bem-vindo ao TuneFeed!</Modal.Title>
           </Modal.Header>
           <Modal.Body className="custom-modal-body">
-            <p className="custom-modal-text">Role o scrool do mouse para descobrir vídeos incríveis!</p>
+            <p className="custom-modal-text">Arraste a tela para cima para descobrir vídeos incríveis!</p>
           </Modal.Body>
           <Modal.Footer className="custom-modal-footer">
             <Button variant="primary" onClick={handleCloseModal} className="custom-modal-button">OK</Button>

@@ -85,16 +85,13 @@ function VideoComponent({ video, preload, onVideoEnd, isFirstVideo }) {
   
 function TuneFeed() {
   const [videoIndex, setVideoIndex] = useState(0);
-  const feedRef = useRef(null);
+  const [isFirstPlay, setIsFirstPlay] = useState(false);
 
   const [showModal, setShowModal] = useState(true);
 
   const handleCloseModal = () => {
     setShowModal(false);
-    const firstVideo = feedRef.current.querySelector('video');
-    if (firstVideo) {
-      firstVideo.play().catch(error => console.error("Erro ao tentar reproduzir vídeo:", error));
-    }
+    setIsFirstPlay(true);
   };
 
   const goToNextVideo = () => setVideoIndex(prevIndex => (prevIndex + 1) % videoData.length);
@@ -131,7 +128,7 @@ function TuneFeed() {
   }, []);
 
   return (
-    <div className="tuneFeed" {...handlers} ref={feedRef}>
+    <div className="tuneFeed" {...handlers}>
           <Modal show={showModal} centered className="custom-modal">
           <Modal.Header className="custom-modal-header">
             <Modal.Title className="custom-modal-title">Bem-vindo ao TuneFeed!</Modal.Title>
@@ -146,7 +143,7 @@ function TuneFeed() {
 
         <h1 className="title">TuneFeed - Vídeos recomendados</h1>
           {videoData.map((video, index) => (
-              index === videoIndex && <VideoComponent key={index} video={video} onVideoEnd={goToNextVideo} />
+              index === videoIndex && <VideoComponent key={index} video={video} onVideoEnd={goToNextVideo}  isActive={index === 0 ? !isFirstPlay : false} />
           ))}
 
           {}

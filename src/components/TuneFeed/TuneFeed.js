@@ -129,12 +129,13 @@ function TuneFeed() {
 
   return (
     <div className="tuneFeed" {...handlers}>
+           {showModal && <div className="backdrop"></div>}
           <Modal show={showModal} centered className="custom-modal">
           <Modal.Header className="custom-modal-header">
             <Modal.Title className="custom-modal-title">Bem-vindo ao TuneFeed!</Modal.Title>
           </Modal.Header>
           <Modal.Body className="custom-modal-body">
-            <p className="custom-modal-text">Arraste a tela para cima para descobrir vídeos incríveis!</p>
+            <p className="custom-modal-text">- Arraste a tela para cima para descobrir vídeos incríveis!</p>
           </Modal.Body>
           <Modal.Footer className="custom-modal-footer">
             <Button variant="primary" onClick={handleCloseModal} className="custom-modal-button">OK</Button>

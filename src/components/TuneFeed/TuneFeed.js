@@ -143,7 +143,7 @@ function TuneFeed() {
 
         <h1 className="title">TuneFeed - Vídeos recomendados</h1>
           {videoData.map((video, index) => (
-              index === videoIndex && <VideoComponent key={index} video={video} onVideoEnd={goToNextVideo}  isActive={index === 0 ? !isFirstPlay : false} />
+              index === videoIndex && <VideoComponent key={index} video={video} onVideoEnd={goToNextVideo}  isActive={index === 0 ? !isFirstPlay : true} />
           ))}
 
           {}

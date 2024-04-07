@@ -5,33 +5,32 @@ import { Modal, Button } from 'react-bootstrap';
 import './TuneFeed.css';
 
 const videoData = [
-  {
-    src: "./video1.mp4",
-    user: "@usuario1",
-    description: "Descrição do vídeo 1",
-    music: "Música 1",
-  },
-  {
-    src: "./video2.mp4",
-    user: "@usuario2",
-    description: "Descrição do vídeo 2",
-    music: "Música 2"
-  },
-  {
-    src: "./video3.mp4",
-    user: "@usuario3",
-    description: "Descrição do vídeo 3",
-    music: "Música 3"
-  },
-  {
-    src: "./video4.mp4",
-    user: "@usuario4",
-    description: "Descrição do vídeo 4",
-    music: "Música 4"
-  },
+    {
+      src: "./video1.mp4",
+      user: "@usuario1",
+      description: "Descrição do vídeo 1",
+      music: "Música 1",
+    },
+    {
+      src: "./video2.mp4",
+      user: "@usuario2",
+      description: "Descrição do vídeo 2",
+      music: "Música 2"
+    },
+    {
+        src: "./video3.mp4",
+        user: "@usuario3",
+        description: "Descrição do vídeo 3",
+        music: "Música 3"
+    },
+    {
+        src: "./video4.mp4",
+        user: "@usuario4",
+        description: "Descrição do vídeo 4",
+        music: "Música 4"
+    },
 ];
-
-function VideoComponent({ video, preload, onVideoEnd }) {
+function VideoComponent({ video, preload, onVideoEnd, isFirstVideo }) {
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -44,39 +43,57 @@ function VideoComponent({ video, preload, onVideoEnd }) {
     const videoElement = videoRef.current;
     videoElement.addEventListener('ended', handleVideoEnd);
 
+    
+
     return () => {
       videoElement.removeEventListener('ended', handleVideoEnd);
     };
   }, [onVideoEnd]);
 
+  const handleVisibilityChange = (isVisible) => {
+  if (isVisible) {
+    if (!isFirstVideo) {
+      const videoElement = videoRef.current;
+      if (videoElement && document.body.contains(videoElement)) {
+        videoElement.play().catch(error => console.error("Erro ao tentar reproduzir vídeo:", error));
+      }
+    }
+  } else {
+    const videoElement = videoRef.current;
+    if (videoElement && !videoElement.paused) {
+      videoElement.pause();
+    }
+  }
+};
+
   return (
-    <div className="videoSection">
-      <video ref={videoRef} width="320" height="240" controls preload={preload ? "auto" : "none"} muted playsInline>
-        <source src={video.src} type="video/mp4" />
-        Seu navegador não suporta o elemento de vídeo.
-      </video>
-      <div className="videoInfo">
-        <span className="userName">{video.user}</span>
-        <p className="videoDescription">{video.description}</p>
-        <span className="musicInfo">🎵 {video.music}</span>
+    <VisibilitySensor onChange={handleVisibilityChange} partialVisibility>
+      <div className="videoSection">
+      <video ref={videoRef} width="320" height="240" controls preload={preload ? "auto" : "none"}muted playsInline>
+          <source src={video.src} type="video/mp4" />
+          Seu navegador não suporta o elemento de vídeo.
+        </video>
+        <div className="videoInfo">
+          <span className="userName">{video.user}</span>
+          <p className="videoDescription">{video.description}</p>
+          <span className="musicInfo">🎵 {video.music}</span>
+        </div>
       </div>
-    </div>
+    </VisibilitySensor>
   );
 }
   
 function TuneFeed() {
   const [videoIndex, setVideoIndex] = useState(0);
   const feedRef = useRef(null);
+
   const [showModal, setShowModal] = useState(true);
 
   const handleCloseModal = () => {
     setShowModal(false);
     const firstVideo = feedRef.current.querySelector('video');
     if (firstVideo) {
-      // Adicionando o listener para canplaythrough
-      firstVideo.addEventListener('canplaythrough', () => {
-        firstVideo.play().catch(error => console.error("Erro ao tentar reproduzir vídeo:", error));
-      }, { once: true });
+      firstVideo.play().catch(error => console.error("Erro ao tentar reproduzir vídeo:", error));
     }
   };
 
@@ -115,30 +132,31 @@ function TuneFeed() {
 
   return (
     <div className="tuneFeed" {...handlers} ref={feedRef}>
-      <Modal show={showModal} centered className="custom-modal">
-        <Modal.Header className="custom-modal-header">
-          <Modal.Title className="custom-modal-title">Bem-vindo ao TuneFeed!</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="custom-modal-body">
-          <p className="custom-modal-text">Arraste a tela para cima para descobrir vídeos incríveis!</p>
-        </Modal.Body>
-        <Modal.Footer className="custom-modal-footer">
-          <Button variant="primary" onClick={handleCloseModal} className="custom-modal-button">OK</Button>
-        </Modal.Footer>
-      </Modal>
+          <Modal show={showModal} centered className="custom-modal">
+          <Modal.Header className="custom-modal-header">
+            <Modal.Title className="custom-modal-title">Bem-vindo ao TuneFeed!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="custom-modal-body">
+            <p className="custom-modal-text">Arraste a tela para cima para descobrir vídeos incríveis!</p>
+          </Modal.Body>
+          <Modal.Footer className="custom-modal-footer">
+            <Button variant="primary" onClick={handleCloseModal} className="custom-modal-button">OK</Button>
+          </Modal.Footer>
+        </Modal>
 
-      <h1 className="title">TuneFeed - Vídeos recomendados</h1>
-      {videoData.map((video, index) => (
-        index === videoIndex && <VideoComponent key={index} video={video} onVideoEnd={goToNextVideo} />
-      ))}
+        <h1 className="title">TuneFeed - Vídeos recomendados</h1>
+          {videoData.map((video, index) => (
+              index === videoIndex && <VideoComponent key={index} video={video} onVideoEnd={goToNextVideo} />
+          ))}
 
-      {videoIndex < videoData.length - 1 && 
-        <div style={{ display: "none" }}>
-          <VideoComponent video={videoData[videoIndex + 1]} preload="true" />
-        </div>
-      }
-    </div>
-  );
+          {}
+          {videoIndex < videoData.length - 1 && 
+            <div style={{ display: "none" }}>
+              <VideoComponent video={videoData[videoIndex + 1]} preload={true} />
+            </div>
+          }
+      </div>
+    );
 }
 
 export default TuneFeed;

@@ -93,9 +93,7 @@ function TuneFeed() {
     setShowModal(false);
     const firstVideo = feedRef.current.querySelector('video');
     if (firstVideo) {
-      firstVideo.addEventListener('loadeddata', () => {
-        firstVideo.play().catch(error => console.error("Erro ao tentar reproduzir vídeo:", error));
-      }, { once: true }); 
+      firstVideo.play().catch(error => console.error("Erro ao tentar reproduzir vídeo:", error));
     }
   };
 

@@ -85,13 +85,18 @@ function VideoComponent({ video, preload, onVideoEnd, isFirstVideo }) {
   
 function TuneFeed() {
   const [videoIndex, setVideoIndex] = useState(0);
-  const [isFirstPlay, setIsFirstPlay] = useState(false);
+  const feedRef = useRef(null);
 
   const [showModal, setShowModal] = useState(true);
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setIsFirstPlay(true);
+    const firstVideo = feedRef.current.querySelector('video');
+    if (firstVideo) {
+      firstVideo.addEventListener('loadeddata', () => {
+        firstVideo.play().catch(error => console.error("Erro ao tentar reproduzir vídeo:", error));
+      }, { once: true }); 
+    }
   };
 
   const goToNextVideo = () => setVideoIndex(prevIndex => (prevIndex + 1) % videoData.length);
@@ -128,14 +133,13 @@ function TuneFeed() {
   }, []);
 
   return (
-    <div className="tuneFeed" {...handlers}>
-           {showModal && <div className="backdrop"></div>}
+    <div className="tuneFeed" {...handlers} ref={feedRef}>
           <Modal show={showModal} centered className="custom-modal">
           <Modal.Header className="custom-modal-header">
             <Modal.Title className="custom-modal-title">Bem-vindo ao TuneFeed!</Modal.Title>
           </Modal.Header>
           <Modal.Body className="custom-modal-body">
-            <p className="custom-modal-text">- Arraste a tela para cima para descobrir vídeos incríveis!</p>
+            <p className="custom-modal-text">Arraste a tela para cima para descobrir vídeos incríveis!</p>
           </Modal.Body>
           <Modal.Footer className="custom-modal-footer">
             <Button variant="primary" onClick={handleCloseModal} className="custom-modal-button">OK</Button>
@@ -144,7 +148,7 @@ function TuneFeed() {
 
         <h1 className="title">TuneFeed - Vídeos recomendados</h1>
           {videoData.map((video, index) => (
-              index === videoIndex && <VideoComponent key={index} video={video} onVideoEnd={goToNextVideo}  isActive={index === 0 ? !isFirstPlay : true} />
+              index === videoIndex && <VideoComponent key={index} video={video} onVideoEnd={goToNextVideo} />
           ))}
 
           {}
